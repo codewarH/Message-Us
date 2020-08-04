@@ -1,27 +1,36 @@
 import React, { useState, useEffect } from 'react'
 import { Button, FormControl, InputLabel, Input } from '@material-ui/core'
 import Message from './Message'
+import db from './firebase'
+import firebase from 'firebase'
+import FlipMove from 'react-flip-move'
 
 import './App.css'
 
 function App() {
   const [input, setInput] = useState('')
-  const [messages, setMessages] = useState([
-    {
-      username: 'Hlela',
-      text: 'Where my homies at',
-      username: 'Lola',
-      text: 'He said-',
-    },
-  ])
+  const [messages, setMessages] = useState([])
   const [username, setUsername] = useState('')
 
   const sendMessage = (event) => {
     // all the logic to send a message goes here
     event.preventDefault()
-    setMessages([...messages, { username: username, text: input }])
+    db.collection('messages').add({
+      message: input,
+      username: username,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    })
     setInput('')
   }
+
+  useEffect(() => {
+    // runs once when the app component loads aka a listener
+    db.collection('messages')
+      .orderBy('timestamp', 'asc')
+      .onSnapshot((snapshot) => {
+        setMessages(snapshot.docs.map((doc) => doc.data()))
+      })
+  }, [])
 
   useEffect(() => {
     setUsername(prompt('Please enter your name'))
@@ -50,10 +59,11 @@ function App() {
           </Button>
         </FormControl>
       </form>
-
-      {messages.map((message) => (
-        <Message username={username} message={message} />
-      ))}
+      <FlipMove>
+        {messages.map((message) => (
+          <Message username={username} message={message} />
+        ))}
+      </FlipMove>
     </div>
   )
 }
