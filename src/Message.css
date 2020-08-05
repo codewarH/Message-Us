@@ -1,7 +1,7 @@
 .message {
   padding: 10px;
   margin: 10px;
-  width: fit-content;
+  width: fit-content !important;
 }
 
 .message__user {
@@ -9,9 +9,9 @@
 }
 
 .message__userCard {
-  background-color: rgb(177, 94, 145) !important;
+  background-color: rgb(52, 83, 241) !important;
 }
 
 .message_guestCard {
-  background-color: rgb(245, 214, 235) !important;
+  background-color: rgb(181, 215, 243) !important;
 }
