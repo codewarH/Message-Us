@@ -43,7 +43,8 @@ function App() {
   return (
     <div className="App">
       <img src="https://facebookbrand.com/wp-content/uploads/2019/10/Messenger_Logo_Color_RGB.png?w=100&h=100" />
-      <h1> Hello {username}</h1>
+
+      <h1> Hey {username}</h1>
 
       <form className="app__form">
         <FormControl className="app__formControl">
